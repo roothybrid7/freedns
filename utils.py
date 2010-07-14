@@ -8,6 +8,7 @@ def gethashstr(username, password):
     hashstring = hashobj.hexdigest()
     return hashstring
 
+
 def request(url, timeout, **params):
 
     query = ''
@@ -23,6 +24,7 @@ def request(url, timeout, **params):
     print 'URL: {url} contents download finished.'.format(url=url)
     responsetext = res.read()
     return responsetext
+
 
 # Update the dynamic dns records using API
 def update(responsetext, timeout):
@@ -52,4 +54,3 @@ def update(responsetext, timeout):
         raise
     finally:
         output.close()
-

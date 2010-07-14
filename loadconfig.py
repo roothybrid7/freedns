@@ -4,6 +4,7 @@ import sys
 import traceback
 import ConfigParser
 
+
 class FreednsConfigLoader(object):
 
     def __init__(self):
@@ -52,6 +53,7 @@ class FreednsConfigLoader(object):
             sys.stderr.write(traceback.format_exc())
             raise
 
+
 def main():
 
     from optparse import OptionParser
@@ -66,11 +68,9 @@ def main():
     if not options.username:
         sys.stderr.write("Input username!!")
         sys.exit(1)
-    if not options.password:
-        password = getpass.getpass()
-    else:
-        password = options.password
-    hashstr = gethashstr(options.username, password)
+    username = options.username
+    password = options.password or getpass.getpass()
+    hashstr = gethashstr(username, password)
 
     config = FreednsConfigLoader()
     config.add_section(settings.SECTION)

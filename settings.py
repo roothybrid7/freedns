@@ -22,11 +22,8 @@ CMD_OPTIONS = [
         help="Username of FreeDNS domain hosting"),
     make_option("-p", "--pass", dest="password",
         help="User password of FreeDNS domain hosting"),
-    make_option("-f", "--file", dest="filename",
-        help="write report to FILE"),
     make_option("-v", "--verbose",
         action="store_true", dest="verbose"),
     make_option("-q", "--quiet",
         action="store_false", dest="verbose"),
 ]
-
