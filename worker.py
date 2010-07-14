@@ -18,4 +18,5 @@ class AsyncWorker(threading.Thread):
         except:
             return False
             raise
-        print 'URL: {url} update successfully.'.format(url=self.url)
+        else:
+            print 'URL: {url} update successfully.'.format(url=self.url)

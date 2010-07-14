@@ -66,7 +66,8 @@ def main():
 
     options, args = parser.parse_args()
     if not options.username:
-        sys.stderr.write("Input username!!")
+        sys.stderr.write("Input username!!\n")
+        parser.print_help()
         sys.exit(1)
     username = options.username
     password = options.password or getpass.getpass()

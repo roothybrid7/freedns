@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 import os
+import sys
 import traceback
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -27,3 +28,8 @@ CMD_OPTIONS = [
     make_option("-q", "--quiet",
         action="store_false", dest="verbose"),
 ]
+
+
+def verbose(flag):
+    if not flag:
+        sys.stdout = open(os.devnull)
