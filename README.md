@@ -41,16 +41,16 @@ freednsupdate.py
 
 ユーザ名とパスワードを指定してレコードを更新する。
 
-  $ python freednsupdate.py -u hoge -p password [OR -username=hoge --password=password]
+    $ python freednsupdate.py -u hoge -p password [OR -username=hoge --password=password]
 
 ユーザ名のみ指定して、パスワードは画面上に出力させないようパスワードプロンプトで入力して更新する。
 
-  $ python freednsupdate.py -u hoge [OR --username=hoge]
-  Password:
+    $ python freednsupdate.py -u hoge [OR --username=hoge]
+    Password:
 
 実行オプション未指定でレコードを更新する。(ユーザ名とパスワードを指定して作成する暗号化文字列を保存した設定ファイルが必要: 後述)
 
-  $ python freednsupdate.py
+    $ python freednsupdate.py
 
 
 cronなどで定期敵に実行したい場合
@@ -60,8 +60,8 @@ cronなどで定期敵に実行したい場合
 
 1時間おきに実行したい場合
 
-  $ crontab -l
-  0 * * * * python /home/hoge/cron/freedns/freednsupdate.py
+    $ crontab -l
+    0 * * * * python /home/hoge/cron/freedns/freednsupdate.py
 
 
 loadconfig.py
@@ -74,26 +74,25 @@ loadconfig.py
 実行オプション
 --------------
 
-  $ python loadconfig.py -h
-  Usage: loadconfig.py [options]
+    $ python loadconfig.py -h
+    Usage: loadconfig.py [options]
 
-  Options:
-    -h, --help            show this help message and exit
-    -u USERNAME, --username=USERNAME
-    -p PASSWORD, --password=PASSWORD
+    Options:
+      -h, --help            show this help message and exit
+      -u USERNAME, --username=USERNAME
+      -p PASSWORD, --password=PASSWORD
 
 実行サンプル
 ------------
 
 ユーザ名を指定して実行する。
 
-  $ python loadconfig.py -u hoge [OR --username=hoge]
-  Password:
+    $ python loadconfig.py -u hoge [OR --username=hoge]
+    Password:
 
 ユーザ名とパスワードを指定して実行する。
 
-
-  $ python loadconfig.py -u hoge -p password [OR --username=hoge --password=password]
+    $ python loadconfig.py -u hoge -p password [OR --username=hoge --password=password]
 
 settings.py
 ===========
