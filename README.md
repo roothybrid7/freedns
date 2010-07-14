@@ -102,65 +102,65 @@ settings.py
 設定値
 
 SECRET
-  ユーザ名とパスワードを指定して作成した暗号化文字列を保存する設定ファイル名(デフォルト: [script directory/.freednssec.cfg])
+    ユーザ名とパスワードを指定して作成した暗号化文字列を保存する設定ファイル名(デフォルト: [script directory/.freednssec.cfg])
 
-  作成される暗号化文字列は"username|password"(username + pipe + password)をsha1で暗号化してもの
+    作成される暗号化文字列は"username|password"(username + pipe + password)をsha1で暗号化してもの
 
 SECTION
-  設定ファイル名のセクション名(デフォルト: Secret)
+    設定ファイル名のセクション名(デフォルト: Secret)
 
 HASH_ARGO
-  URLパラメータで指定する暗号化方式(URLパラメータ: ?sha=xxxxx[暗号化文字列])
+    URLパラメータで指定する暗号化方式(URLパラメータ: ?sha=xxxxx[暗号化文字列])
 
-  暗号化方式自体は、sha-1
+    暗号化方式自体は、sha-1
 
 TARGET_PARAMS
-  URLパラメータのキーと値(HASH_ARGOの部分はユーザ名とパスワードにより動的に決定する)
+    URLパラメータのキーと値(HASH_ARGOの部分はユーザ名とパスワードにより動的に決定する)
 
 TARGET_API
-  FreeDNSのXML APIを取得するURL
+    FreeDNSのXML APIを取得するURL
 
 TIMEOUT
-  XML API取得とDynamic DNS update実行時のタイムアウト値(デフォルト: 300秒)
+    XML API取得とDynamic DNS update実行時のタイムアウト値(デフォルト: 300秒)
 
 settings.py
 
-  #!/usr/bin/env python
-  # -*- coding:utf-8 -*-
+    #!/usr/bin/env python
+    # -*- coding:utf-8 -*-
 
-  import os
-  import sys 
-  import traceback
+    import os
+    import sys 
+    import traceback
 
-  BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-  # User account and api settings
-  SECRET = os.path.join(BASE_DIR, ".freednssec.cfg")
-  SECTION = "Secret"
-  HASH_ARGO = "sha"
-  TARGET_PARAMS = {'action': "getdyndns", HASH_ARGO: None, 'style': "xml"}
-  TARGET_API = "http://freedns.afraid.org/api/"
-  TIMEOUT = 300 
+    # User account and api settings
+    SECRET = os.path.join(BASE_DIR, ".freednssec.cfg")
+    SECTION = "Secret"
+    HASH_ARGO = "sha"
+    TARGET_PARAMS = {'action': "getdyndns", HASH_ARGO: None, 'style': "xml"}
+    TARGET_API = "http://freedns.afraid.org/api/"
+    TIMEOUT = 300 
 
-  # Command Options
-  VERSION = "%prog 0.1"
+    # Command Options
+    VERSION = "%prog 0.1"
 
-  from optparse import make_option
-  CMD_OPTIONS = [ 
-      make_option("-u", "--user", dest="username",
-          help="Username of FreeDNS domain hosting"),
-      make_option("-p", "--pass", dest="password",
-          help="User password of FreeDNS domain hosting"),
-      make_option("-v", "--verbose",
-          action="store_true", dest="verbose"),
-      make_option("-q", "--quiet",
-          action="store_false", dest="verbose"),
-  ]
+    from optparse import make_option
+    CMD_OPTIONS = [ 
+        make_option("-u", "--user", dest="username",
+            help="Username of FreeDNS domain hosting"),
+        make_option("-p", "--pass", dest="password",
+            help="User password of FreeDNS domain hosting"),
+        make_option("-v", "--verbose",
+            action="store_true", dest="verbose"),
+        make_option("-q", "--quiet",
+            action="store_false", dest="verbose"),
+    ]
 
 
-  def verbose(flag):
-      if not flag:
-          sys.stdout = open(os.devnull)
+    def verbose(flag):
+        if not flag:
+            sys.stdout = open(os.devnull)
 
 ユーザ名とパスワードから生成される設定ファイル
 ==============================================
@@ -168,11 +168,11 @@ settings.py
 FreeDNSのXML APIを取得する際に必要な暗号化文字列を保存する設定ファイル
 
 デフォルトの場合
-  セクション: Secret
+    セクション: Secret
 
-  暗号化文字列項目名: sha
+    暗号化文字列項目名: sha
 
-  [Secret]
-  sha = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    [Secret]
+    sha = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
