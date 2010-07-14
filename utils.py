@@ -49,7 +49,7 @@ def update(responsetext, timeout):
         # wait for the background tasks to finish
         for t in tasks:
             t.join()
-        print 'Dynamic dns update tasks were done.'
+        print 'Dynamic dns update tasks has finished.'
     except:
         raise
     finally:
