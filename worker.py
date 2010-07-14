@@ -14,9 +14,9 @@ class AsyncWorker(threading.Thread):
         try:
             print 'Connecting URL: {url} ...'.format(url=self.url)
             res = urllib2.urlopen(url=self.url, timeout=self.timeout)
-            return True
         except:
             return False
             raise
         else:
             print 'URL: {url} update successfully.'.format(url=self.url)
+            return True
