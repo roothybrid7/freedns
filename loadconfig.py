@@ -59,6 +59,7 @@ def main():
     from optparse import OptionParser
     import settings
     import getpass
+    import utils
 
     parser = OptionParser()
     parser.add_option("-u", "--username", dest="username")
@@ -71,7 +72,7 @@ def main():
         sys.exit(1)
     username = options.username
     password = options.password or getpass.getpass()
-    hashstr = gethashstr(username, password)
+    hashstr = utils.gethashstr(username, password)
 
     config = FreednsConfigLoader()
     config.add_section(settings.SECTION)
