@@ -68,7 +68,7 @@ loadconfig.py
 =============
 
 このファイルをスクリプトとして実行すると、ユーザ名をパスワードを指定して作成する暗号化文字列を保存した設定ファイルを作成する。
-(設定ファイル名は、settings.pyの
+(デフォルトの設定ファイル名: .freednssec.cfg)
 
 
 実行オプション
@@ -104,7 +104,7 @@ settings.py
 SECRET
     ユーザ名とパスワードを指定して作成した暗号化文字列を保存する設定ファイル名(デフォルト: [script directory/.freednssec.cfg])
 
-    作成される暗号化文字列は"username|password"(username + pipe + password)をsha1で暗号化してもの
+    作成される暗号化文字列は"username|password"(username + pipe + password)をsha1で暗号化したもの
 
 SECTION
     設定ファイル名のセクション名(デフォルト: Secret)
@@ -164,6 +164,8 @@ settings.py
 
 ユーザ名とパスワードから生成される設定ファイル
 ==============================================
+
+デフォルトの設定ファイル名: [script directory]/.freednssec.cfg
 
 FreeDNSのXML APIを取得する際に必要な暗号化文字列を保存する設定ファイル
 
