@@ -12,7 +12,7 @@ Quick-start
 
 下記のコマンドをFreeDNSの登録ユーザ名を指定し実行する。
 
-.. code-block::
+.. code-block:: bash
 
     $ cd [script directory]
     $ python freednsupdate.py -u [FreeDNSの登録ユーザ名]
@@ -24,7 +24,7 @@ freednsupdate.py
 実行オプション
 --------------
 
-.. code-block::
+.. code-block:: bash
 
     $ python freednsupdate.py -h
     Usage: freednsupdate.py [options]
@@ -45,20 +45,20 @@ freednsupdate.py
 
 ユーザ名とパスワードを指定してレコードを更新する。
 
-.. code-block::
+.. code-block:: bash
 
   $ python freednsupdate.py -u hoge -p password [OR -username=hoge --password=password]
 
 ユーザ名のみ指定して、パスワードは画面上に出力させないようパスワードプロンプトで入力して更新する。
 
-.. code-block::
+.. code-block:: bash
 
   $ python freednsupdate.py -u hoge [OR --username=hoge]
   Password:
 
 実行オプション未指定でレコードを更新する。(ユーザ名とパスワードを指定して作成する暗号化文字列を保存した設定ファイルが必要: 後述)
 
-.. code-block::
+.. code-block:: bash
 
   $ python freednsupdate.py
 
@@ -70,7 +70,7 @@ cronなどで定期敵に実行したい場合
 
 1時間おきに実行したい場合
 
-.. code-block::
+.. code-block:: bash
 
   $ crontab -l
   0 * * * * python /home/hoge/cron/freedns/freednsupdate.py
@@ -86,7 +86,7 @@ loadconfig.py
 実行オプション
 --------------
 
-.. code-block::
+.. code-block:: bash
 
   $ python loadconfig.py -h
   Usage: loadconfig.py [options]
@@ -101,14 +101,14 @@ loadconfig.py
 
 ユーザ名を指定して実行する。
 
-.. code-block::
+.. code-block:: bash
 
   $ python loadconfig.py -u hoge [OR --username=hoge]
   Password:
 
 ユーザ名とパスワードを指定して実行する。
 
-.. code-block::
+.. code-block:: bash
 
   $ python loadconfig.py -u hoge -p password [OR --username=hoge --password=password]
 
@@ -142,7 +142,7 @@ TIMEOUT
   XML API取得とDynamic DNS update実行時のタイムアウト値(デフォルト: 300秒)
 
 settings.py
-.. code-block::
+.. code-block:: python
 
   #!/usr/bin/env python
   # -*- coding:utf-8 -*-
@@ -191,7 +191,7 @@ FreeDNSのXML APIを取得する際に必要な暗号化文字列を保存する
 
   暗号化文字列項目名: sha
 
-..code-block::
+..code-block:: cfg
 
   [Secret]
   sha = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
