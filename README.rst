@@ -2,8 +2,9 @@
  Dynamic DNS Client (FreeDNS XML API)
 ======================================
 
-FreeDNS: http://freedns.afraid.org/ で用意されているXML APIから、Dynamic DNS更新用URLを取得してDNSのレコードを更新するスクリプトです。
+FreeDNS_ で用意されているXML APIから、Dynamic DNS更新用URLを取得してDNSのレコードを更新するスクリプトです。
 
+.. _FreeDNS: http://freedns.afraid.org/
 
 Quick-start
 ===========
@@ -12,7 +13,7 @@ Quick-start
 
 下記のコマンドをFreeDNSの登録ユーザ名を指定し実行する。
 
-.. code-block::
+code-block ::
 
     $ cd [script directory]
     $ python freednsupdate.py -u [FreeDNSの登録ユーザ名]
@@ -24,7 +25,7 @@ freednsupdate.py
 実行オプション
 --------------
 
-.. code-block::
+code-block ::
 
     $ python freednsupdate.py -h
     Usage: freednsupdate.py [options]
@@ -34,10 +35,6 @@ freednsupdate.py
                             Username of FreeDNS domain hosting
       -p PASSWORD, --pass=PASSWORD
                             User password of FreeDNS domain hosting
-      -v, --verbose
-      -q, --quiet
-      --version             show program's version number and exit
-      -h, --help            show this help message and exit
 
 
 実行サンプル
@@ -45,22 +42,22 @@ freednsupdate.py
 
 ユーザ名とパスワードを指定してレコードを更新する。
 
-.. code-block::
+code-block ::
 
-  $ python freednsupdate.py -u hoge -p password [OR -username=hoge --password=password]
+    $ python freednsupdate.py -u hoge -p password [OR -username=hoge --password=password]
 
 ユーザ名のみ指定して、パスワードは画面上に出力させないようパスワードプロンプトで入力して更新する。
 
-.. code-block::
+code-block ::
 
-  $ python freednsupdate.py -u hoge [OR --username=hoge]
-  Password:
+    $ python freednsupdate.py -u hoge [OR --username=hoge]
+    Password:
 
 実行オプション未指定でレコードを更新する。(ユーザ名とパスワードを指定して作成する暗号化文字列を保存した設定ファイルが必要: 後述)
 
-.. code-block::
+code-block ::
 
-  $ python freednsupdate.py
+    $ python freednsupdate.py
 
 
 cronなどで定期敵に実行したい場合
@@ -70,47 +67,47 @@ cronなどで定期敵に実行したい場合
 
 1時間おきに実行したい場合
 
-.. code-block::
+code-block ::
 
-  $ crontab -l
-  0 * * * * python /home/hoge/cron/freedns/freednsupdate.py
+    $ crontab -l
+    0 * * * * python /home/hoge/cron/freedns/freednsupdate.py
 
 
 loadconfig.py
 =============
 
 このファイルをスクリプトとして実行すると、ユーザ名をパスワードを指定して作成する暗号化文字列を保存した設定ファイルを作成する。
-(設定ファイル名は、settings.pyの
+(デフォルトの設定ファイル名: .freednssec.cfg)
 
 
 実行オプション
 --------------
 
-.. code-block::
+code-block ::
 
-  $ python loadconfig.py -h
-  Usage: loadconfig.py [options]
+    $ python loadconfig.py -h
+    Usage: loadconfig.py [options]
 
-  Options:
-    -h, --help            show this help message and exit
-    -u USERNAME, --username=USERNAME
-    -p PASSWORD, --password=PASSWORD
+    Options:
+      -h, --help            show this help message and exit
+      -u USERNAME, --username=USERNAME
+      -p PASSWORD, --password=PASSWORD
 
 実行サンプル
 ------------
 
 ユーザ名を指定して実行する。
 
-.. code-block::
+code-block ::
 
-  $ python loadconfig.py -u hoge [OR --username=hoge]
-  Password:
+    $ python loadconfig.py -u hoge [OR --username=hoge]
+    Password:
 
 ユーザ名とパスワードを指定して実行する。
 
-.. code-block::
+code-block ::
 
-  $ python loadconfig.py -u hoge -p password [OR --username=hoge --password=password]
+    $ python loadconfig.py -u hoge -p password [OR --username=hoge --password=password]
 
 settings.py
 ===========
@@ -141,45 +138,47 @@ TARGET_API
 TIMEOUT
   XML API取得とDynamic DNS update実行時のタイムアウト値(デフォルト: 300秒)
 
-settings.py
-.. code-block::
+*settings.py*
 
-  #!/usr/bin/env python
-  # -*- coding:utf-8 -*-
+code-block ::
 
-  import os
-  import sys 
-  import traceback
+    #!/usr/bin/env python
+    # -*- coding:utf-8 -*-
 
-  BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    import os
+    import sys 
+    import traceback
 
-  # User account and api settings
-  SECRET = os.path.join(BASE_DIR, ".freednssec.cfg")
-  SECTION = "Secret"
-  HASH_ARGO = "sha"
-  TARGET_PARAMS = {'action': "getdyndns", HASH_ARGO: None, 'style': "xml"}
-  TARGET_API = "http://freedns.afraid.org/api/"
-  TIMEOUT = 300 
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-  # Command Options
-  VERSION = "%prog 0.1"
+    # User account and api settings
+    SECRET = os.path.join(BASE_DIR, ".freednssec.cfg")
+    SECTION = "Secret"
+    HASH_ARGO = "sha"
+    TARGET_PARAMS = {'action': "getdyndns", HASH_ARGO: None, 'style': "xml"}
+    TARGET_API = "http://freedns.afraid.org/api/"
+    TIMEOUT = 300 
 
-  from optparse import make_option
-  CMD_OPTIONS = [ 
-      make_option("-u", "--user", dest="username",
-          help="Username of FreeDNS domain hosting"),
-      make_option("-p", "--pass", dest="password",
-          help="User password of FreeDNS domain hosting"),
-      make_option("-v", "--verbose",
-          action="store_true", dest="verbose"),
-      make_option("-q", "--quiet",
-          action="store_false", dest="verbose"),
-  ]
+    # Command Options
+    VERSION = "%prog 0.1"
+
+    from optparse import make_option
+    CMD_OPTIONS = [ 
+        make_option("-u", "--user", dest="username",
+            help="Username of FreeDNS domain hosting"),
+        make_option("-p", "--pass", dest="password",
+            help="User password of FreeDNS domain hosting"),
+        make_option("-v", "--verbose",
+            action="store_true", dest="verbose"),
+        make_option("-q", "--quiet",
+            action="store_false", dest="verbose"),
+    ]
 
 
-  def verbose(flag):
-      if not flag:
-          sys.stdout = open(os.devnull)
+    def verbose(flag):
+        if not flag:
+            sys.stdout = open(os.devnull)
+
 
 ユーザ名とパスワードから生成される設定ファイル
 ==============================================
@@ -191,9 +190,8 @@ FreeDNSのXML APIを取得する際に必要な暗号化文字列を保存する
 
   暗号化文字列項目名: sha
 
-..code-block::
+code-block ::
 
-  [Secret]
-  sha = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
+    [Secret]
+    sha = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
