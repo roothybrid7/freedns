@@ -119,7 +119,7 @@ settings.py
 SECRET
   ユーザ名とパスワードを指定して作成した暗号化文字列を保存する設定ファイル名(デフォルト: [script directory/.freednssec.cfg])
 
-  作成される暗号化文字列は"username|password"(username + pipe + password)をsha1で暗号化してもの
+  作成される暗号化文字列は"username|password"(username + pipe + password)をsha1で暗号化したもの
 
 SECTION
   設定ファイル名のセクション名(デフォルト: Secret)
