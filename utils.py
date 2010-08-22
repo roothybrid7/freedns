@@ -1,5 +1,4 @@
 def gethashstr(username, password):
-
     import hashlib
 
     hashobj = hashlib.sha1()
@@ -9,16 +8,9 @@ def gethashstr(username, password):
     return hashstring
 
 
-def request(url, timeout, **params):
-
-    query = ''
-    for k, v in params.items():
-        query += '?' if query == '' else '&'
-        query += '{key}={value}'.format(key=k, value=v)
-
-    url += query
-
+def request(url, timeout):
     import urllib2
+
     print 'Connecting URL: {url} ...'.format(url=url)
     res = urllib2.urlopen(url=url, timeout=timeout)
     print 'URL: {url} contents download finished.'.format(url=url)
@@ -38,12 +30,10 @@ def update(responsetext, timeout):
         tree.parse(output)
         urls = tree.findall("item/url")
 
-        # record update
+        # Record update
         from worker import AsyncWorker
-        tasks = []
-        for u in urls:
-            t = AsyncWorker(u.text, timeout)
-            tasks.append(t)
+        tasks = [AsyncWorker(u.text, timeout) for u in urls]
+        for t in tasks:
             t.start()
 
         # wait for the background tasks to finish

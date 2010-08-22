@@ -15,7 +15,7 @@ TARGET_API = "http://freedns.afraid.org/api/"
 TIMEOUT = 300
 
 # Command Options
-VERSION = "%prog 0.1"
+VERSION = "%prog 0.2.0"
 
 from optparse import make_option
 CMD_OPTIONS = [
@@ -23,13 +23,4 @@ CMD_OPTIONS = [
         help="Username of FreeDNS domain hosting"),
     make_option("-p", "--pass", dest="password",
         help="User password of FreeDNS domain hosting"),
-    make_option("-v", "--verbose",
-        action="store_true", dest="verbose"),
-    make_option("-q", "--quiet",
-        action="store_false", dest="verbose"),
 ]
-
-
-def verbose(flag):
-    if not flag:
-        sys.stdout = open(os.devnull)

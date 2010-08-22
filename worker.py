@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # -*= coding:utf-8 -*-
 import threading
+from multiprocessing import Process
 import urllib2
 
 
-class AsyncWorker(threading.Thread):
+class AsyncWorker(Process):
     def __init__(self, url, timeout):
-        threading.Thread.__init__(self)
+        Process.__init__(self)
         self.url = url
         self.timeout = timeout
 

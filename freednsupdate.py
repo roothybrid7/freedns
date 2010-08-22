@@ -9,39 +9,17 @@ except ImportError, e:
     sys.exit(1)
 
 
-def getuserpass(username, password):
-
-    # Read configfile
-    if not any([username, password]):
-        from loadconfig import FreednsConfigLoader
-        loader = FreednsConfigLoader()
-        loader.setfile(settings.SECRET)
-        loader.read()
-        return loader.get(settings.SECTION, settings.HASH_ARGO)
-
-    import getpass
-    # Get CommandLine
-    if username:
-        return utils.gethashstr(username, password or getpass.getpass())
-    # Get ENV VARIABLE: LOGNAME > USER > LNAME > USERNAME
-    else:
-        return utils.gethashstr(getpass.getuser(), password)
-
-
 def main():
-
+    from loadconfig import FreednsConfigLoader
     from optparse import OptionParser
-    parser = OptionParser(option_list=settings.CMD_OPTIONS,
-        version=settings.VERSION)
-
+    loader = FreednsConfigLoader()
+    parser = OptionParser(
+        option_list=loader.options, version=loader.version)
     options, args = parser.parse_args()
-    settings.verbose(options.verbose)
     try:
-        settings.TARGET_PARAMS[settings.HASH_ARGO] = getuserpass(
-            options.username, options.password)
-        res = utils.request(settings.TARGET_API,
-            settings.TIMEOUT, **settings.TARGET_PARAMS)
-        utils.update(res, settings.TIMEOUT)
+        loader.set_auth(options.username, options.password)
+        res = utils.request(loader.get_request_url(), loader.timeout)
+        utils.update(res, loader.timeout)
     except Exception, e:
         parser.print_help()
         import sys
