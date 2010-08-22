@@ -5,10 +5,10 @@ import traceback
 import settings
 import utils
 import ConfigParser
+import logging
 
 
 class FreednsConfigParser(object):
-
     def __init__(self, filename=None):
         self.config = ConfigParser.ConfigParser()
         if filename:
@@ -30,40 +30,41 @@ class FreednsConfigParser(object):
     def set(self, section, option, value):
         if self.config.has_section(section):
             self.config.set(section, option, value)
-            return True
+            return self
         else:
-            return False
+            return None
 
     def write(self):
         try:
             if self.filename:
                 with open(self.filename, 'wb') as f:
                     self.config.write(f)
-                return True
+                return self
             else:
-                return False
-        except:
-            sys.stderr.write(traceback.format_exc())
-            raise
+                return None
+        except Exception, e:
+            raise e
 
     def read(self):
         try:
             if self.filename:
                 self.config.read(self.filename)
-                return True
+                return self
             else:
-                return False
-        except:
-            sys.stderr.write(traceback.format_exc())
-            raise
+                return None
+        except Exception, e:
+            raise e
 
 
 class FreednsConfigLoader(object):
 
     def __init__(self):
-        self.load(settings)
+        self.__load(settings)
 
-    def load(self, settings=None):
+    def __load(self, settings=None):
+        # Auth file parameters
+        self.secfile = settings.SECRET
+        self.section = settings.SECTION
         # Parameters for Option Parser
         self.options = settings.CMD_OPTIONS
         self.version = settings.VERSION
@@ -72,34 +73,31 @@ class FreednsConfigLoader(object):
         self.api = settings.TARGET_API
         self.hash = settings.HASH_ARGO
         self.timeout = settings.TIMEOUT
-
-    def get(self, section, option):
-        return self.config.get(section, option)
-
-    def set(self, section, option, value):
-        if self.config.has_section(section):
-            self.config.set(section, option, value)
-            return True
-        else:
-            return False
+        # TODO: Logging
+#        logging.baseConfig(
+#            level=logging.DEBUG if settings.DEBUG else logging.WARNING,
+#            format='%(name)-12s %(levelname)-8s %(messages)s')
 
     def set_auth(self, username, password):
         import getpass
         # Get password from CommandLine
-        if username:
-            self.params[self.hash] = utils.gethashstr(
-                username, password or getpass.getpass())
-        elif password:
-            self.params[self.hash] = utils.gethashstr(
-                getpass.getuser(), password)
-        # Read configfile
-        else:
-            cfg = FreednsConfigParser(settings.SECRET)
-            cfg.read()
-            self.params[self.hash] = cfg.get(settings.SECTION, self.hash)
+        try:
+            if username:
+                self.params[self.hash] = utils.gethashstr(
+                    username, password or getpass.getpass())
+            elif password:
+                self.params[self.hash] = utils.gethashstr(
+                    getpass.getuser(), password)
+            # Read configfile
+            else:
+                cfg = FreednsConfigParser(self.secfile)
+                cfg.read()
+                self.params[self.hash] = cfg.get(self.section, self.hash)
+        except Exception, e:
+            raise e
+        return self
 
     def get_request_url(self):
-
         query = ''
         for k, v in self.params.items():
             query += '?' if query == '' else '&'
@@ -107,31 +105,42 @@ class FreednsConfigLoader(object):
 
         return self.api + query
 
+    def create_authfile(self):
+        try:
+            cfg = FreednsConfigParser(self.secfile)
+            cfg.add_section(self.section)
+            cfg.set(self.section, self.hash, self.params[self.hash])
+            cfg.write()
+        except Exception, e:
+            raise e
+        return True
 
-def main():
 
+def create_authfile():
+    if not options.username:
+        parser.error("requires username")
+        sys.exit(1)
+    try:
+        loader = FreednsConfigLoader()
+        loader.set_auth(options.username, options.password)
+        loader.create_authfile()
+    except Exception, e:
+        sys.stderr.write(traceback.format_exc())
+        sys.exit(1)
+
+if __name__ == "__main__":
     from optparse import OptionParser
-    import settings
     import getpass
-    import utils
 
-    parser = OptionParser()
+    usage = "usage: %prog create_authfile [options]"
+    parser = OptionParser(usage=usage)
     parser.add_option("-u", "--username", dest="username")
     parser.add_option("-p", "--password", dest="password")
 
-    options, args = parser.parse_args()
-    if not options.username:
-        sys.stderr.write("Input username!!\n")
-        parser.print_help()
+    (options, args) = parser.parse_args()
+    if len(args) != 1:
+        parser.error("requires argument of function name")
         sys.exit(1)
-    username = options.username
-    password = options.password or getpass.getpass()
-    hashstr = utils.gethashstr(username, password)
-
-    config = FreednsConfigLoader(settings.SECRET)
-    config.add_section(settings.SECTION)
-    config.set(settings.SECTION, settings.HASH_ARGO, hashstr)
-    config.write()
-
-if __name__ == "__main__":
-    main()
+    if args[0] == 'create_authfile':
+        create_authfile()
+        print "Create authfile is successfully."

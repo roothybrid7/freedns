@@ -15,9 +15,8 @@ class AsyncWorker(Process):
         try:
             print 'Connecting URL: {url} ...'.format(url=self.url)
             res = urllib2.urlopen(url=self.url, timeout=self.timeout)
-        except:
-            return False
-            raise
+        except Exception, e:
+            raise e
         else:
             print 'URL: {url} update successfully.'.format(url=self.url)
             return True

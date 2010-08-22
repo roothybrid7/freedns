@@ -21,7 +21,7 @@ def request(url, timeout):
 # Update the dynamic dns records using API
 def update(responsetext, timeout):
     from xml.etree.ElementTree import ElementTree
-    from StringIO import StringIO
+    from cStringIO import StringIO
 
     try:
         # xml.etree.ElementTree requires FileObject
@@ -40,7 +40,7 @@ def update(responsetext, timeout):
         for t in tasks:
             t.join()
         print 'Dynamic dns update tasks has finished.'
-    except:
-        raise
+    except Exception, e:
+        raise e
     finally:
         output.close()

@@ -6,6 +6,9 @@ import traceback
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+# Debug mode
+DEBUG = False
+
 # User account and api settings
 SECRET = os.path.join(BASE_DIR, ".freednssec.cfg")
 SECTION = "Secret"
