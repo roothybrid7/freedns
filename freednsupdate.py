@@ -10,7 +10,7 @@ except ImportError, e:
 
 
 def main():
-    from loadconfig import FreednsConfigLoader
+    from manage import FreednsConfigLoader
     from optparse import OptionParser
     loader = FreednsConfigLoader()
     parser = OptionParser(
