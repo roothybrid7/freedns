@@ -7,3 +7,5 @@
 *.bak*
 .freednssec.cfg
 tags
+memo*
+
