@@ -35,6 +35,9 @@ freednsupdate.py
                             Username of FreeDNS domain hosting
       -p PASSWORD, --pass=PASSWORD
                             User password of FreeDNS domain hosting
+      -t TIMEOUT, --timeout=TIMEOUT
+                            Access to FreeDNS API's in time(min value 1)
+                            [default: 300]
       --version             show program's version number and exit
       -h, --help            show this help message and exit
 
@@ -46,13 +49,13 @@ freednsupdate.py
 
 *sample*::
 
-    $ python freednsupdate.py -u hoge -p password [OR --username=hoge --password=password]
+    $ python freednsupdate.py -u hoge -p password [OR --user=hoge --pass=password]
 
 ユーザ名のみ指定して、パスワードは画面上に出力させないようパスワードプロンプトで入力して更新する。
 
 *sample*::
 
-    $ python freednsupdate.py -u hoge [OR --username=hoge]
+    $ python freednsupdate.py -u hoge [OR --user=hoge]
     Password:
 
 実行オプション未指定でレコードを更新する。(ユーザ名とパスワードから作成した暗号化文字列を保存した設定ファイルが必要: 後述)
@@ -169,7 +172,7 @@ TIMEOUT
     TIMEOUT = 300
 
     # Command Options
-    VERSION = "%prog 0.2.0"
+    VERSION = "%prog 0.2.1"
 
     from optparse import make_option
     CMD_OPTIONS = [
@@ -177,6 +180,9 @@ TIMEOUT
             help="Username of FreeDNS domain hosting"),
         make_option("-p", "--pass", dest="password",
             help="User password of FreeDNS domain hosting"),
+        make_option("-t", "--timeout", dest="timeout", type="int",
+            help="""Access to FreeDNS API's in time(min value 1)
+            [default: %default]""", default=TIMEOUT),
     ]
 
 
