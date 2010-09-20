@@ -18,7 +18,7 @@ TARGET_API = "http://freedns.afraid.org/api/"
 TIMEOUT = 300
 
 # Command Options
-VERSION = "%prog 0.2.0"
+VERSION = "%prog 0.2.1"
 
 from optparse import make_option
 CMD_OPTIONS = [
@@ -26,4 +26,7 @@ CMD_OPTIONS = [
         help="Username of FreeDNS domain hosting"),
     make_option("-p", "--pass", dest="password",
         help="User password of FreeDNS domain hosting"),
+    make_option("-t", "--timeout", dest="timeout", type="int",
+        help="""Access to FreeDNS API's in time(min value 1)
+        [default: %default]""", default=TIMEOUT),
 ]

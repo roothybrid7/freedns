@@ -5,6 +5,7 @@ import traceback
 import settings
 import utils
 import ConfigParser
+import getpass
 import logging
 
 
@@ -78,8 +79,14 @@ class FreednsConfigLoader(object):
 #            level=logging.DEBUG if settings.DEBUG else logging.WARNING,
 #            format='%(name)-12s %(levelname)-8s %(messages)s')
 
+    def set_timeout(self, timeout=None):
+        if timeout is None:
+            return self
+        timeout = 1 if timeout < 1 else timeout
+        self.timeout = timeout
+        return self
+
     def set_auth(self, username, password):
-        import getpass
         # Get password from CommandLine
         try:
             if username:
@@ -130,7 +137,6 @@ def create_authfile():
 
 if __name__ == "__main__":
     from optparse import OptionParser
-    import getpass
 
     usage = "usage: %prog create_authfile [options]"
     parser = OptionParser(usage=usage)
